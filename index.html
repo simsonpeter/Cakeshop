@@ -5,89 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cake Shop</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f9f9f9;
-    }
-    header {
-      background-color: #ffcccb;
-      padding: 20px;
-      text-align: center;
-    }
-    nav {
-      display: flex;
-      justify-content: center;
-      background-color: #333;
-      padding: 10px;
-    }
-    nav a {
-      color: white;
-      margin: 0 15px;
-      text-decoration: none;
-    }
-    .container {
-      padding: 20px;
-    }
-    .cake-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
-    .cake-item {
-      background-color: white;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 15px;
-      width: 200px;
-      text-align: center;
-    }
-    .cake-item img {
-      max-width: 100%;
-      border-radius: 10px;
-    }
-    footer {
-      background-color: #333;
-      color: white;
-      text-align: center;
-      padding: 10px;
-      width: 100%;
-    }
-    .order-form {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: white;
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-    }
-    .order-form input,
-    .order-form select {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-    .order-form button {
-      background-color: #ffcccb;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .price {
-      font-weight: bold;
-      color: #e91e63;
-    }
+    /* Add your CSS styles here */
   </style>
 </head>
 <body>
@@ -142,6 +60,7 @@
         return response.json();
       })
       .then(data => {
+        console.log('Cake data loaded:', data); // Debugging
         const cakeList = document.getElementById('cakeList');
         data.forEach(cake => {
           const cakeItem = document.createElement('div');
@@ -156,7 +75,7 @@
         });
       })
       .catch(error => {
-        console.error('Error loading cakes:', error);
+        console.error('Error loading cakes:', error); // Debugging
         alert('Failed to load cake data. Please try again later.');
       });
 
@@ -177,7 +96,12 @@
 
     function updatePrice() {
       const selectedSize = document.getElementById('cakeSize').value;
+      console.log('Selected size:', selectedSize); // Debugging
+      console.log('Current prices:', currentPrices); // Debugging
+
       const price = currentPrices[selectedSize]; // Get price for the selected size
+      console.log('Updated price:', price); // Debugging
+
       document.getElementById('cakePrice').value = `$${price}`; // Update price field
     }
   </script>
