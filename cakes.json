@@ -28,5 +28,16 @@
       "Medium": 32,
       "Large": 42
     }
+  },
+  
+  {
+    "id": 3,
+    "name": "Strawberry Cake",
+    "image": "https://i.ytimg.com/vi/w1vtROTH83Q/maxresdefault.jpg",
+    "prices": {
+      "Small": 22,
+      "Medium": 32,
+      "Large": 42
+    }
   }
 ]
