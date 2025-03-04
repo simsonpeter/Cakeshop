@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Chocolate Cake",
+    "image": "cake1.jpg",
+    "prices": {
+      "Small": 20,
+      "Medium": 30,
+      "Large": 40
+    }
+  },
+  {
+    "id": 2,
+    "name": "Vanilla Cake",
+    "image": "cake2.jpg",
+    "prices": {
+      "Small": 18,
+      "Medium": 28,
+      "Large": 38
+    }
+  },
+  {
+    "id": 3,
+    "name": "Strawberry Cake",
+    "image": "cake3.jpg",
+    "prices": {
+      "Small": 22,
+      "Medium": 32,
+      "Large": 42
+    }
+  }
+]
