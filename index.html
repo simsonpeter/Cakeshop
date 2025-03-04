@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cake Shop</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+    header {
+      background-color: #ffcccb;
+      padding: 20px;
+      text-align: center;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #333;
+      padding: 10px;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+    }
+    .container {
+      padding: 20px;
+    }
+    .cake-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .cake-item {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      width: 200px;
+      text-align: center;
+    }
+    .cake-item img {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      width: 100%;
+    }
+    .order-form {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+    .order-form input,
+    .order-form select {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .order-form button {
+      background-color: #ffcccb;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .price {
+      font-weight: bold;
+      color: #e91e63;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Welcome to Our Cake Shop!</h1>
+  </header>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#menu">Menu</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="container" id="home">
+    <h2>Our Delicious Cakes</h2>
+    <div class="cake-list" id="cakeList">
+      <!-- Cake items will be dynamically inserted here -->
+    </div>
+  </div>
+  <footer id="contact">
+    <p>Contact us: <a href="mailto:orders@cakeshop.com">orders@cakeshop.com</a> | Phone: +123 456 7890</p>
+  </footer>
+
+  <!-- Order Form -->
+  <div class="order-form" id="orderForm">
+    <h3>Place Your Order</h3>
+    <form action="https://formspree.io/f/mgvogbzj" method="POST">
+      <input type="text" id="cakeName" name="cakeName" readonly>
+      <select id="cakeSize" name="cakeSize" onchange="updatePrice()" required>
+        <option value="" disabled selected>Select Size</option>
+        <option value="Small">Small</option>
+        <option value="Medium">Medium</option>
+        <option value="Large">Large</option>
+      </select>
+      <input type="text" id="cakePrice" name="cakePrice" readonly>
+      <input type="date" id="orderDate" name="orderDate" required>
+      <input type="text" id="customerName" name="customerName" placeholder="Your Name" required>
+      <input type="email" id="customerEmail" name="customerEmail" placeholder="Your Email" required>
+      <input type="tel" id="customerPhone" name="customerPhone" placeholder="Your Phone Number" required>
+      <button type="submit">Submit Order</button>
+      <button type="button" onclick="closeOrderForm()">Close</button>
+    </form>
+  </div>
+
+  <script>
+    let currentPrices = {};
+
+    // Fetch cake data from cakes.json
+    fetch('cakes.json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to load cakes.json');
+        }
+        return response.json();
+      })
+      .then(data => {
+        const cakeList = document.getElementById('cakeList');
+        data.forEach(cake => {
+          const cakeItem = document.createElement('div');
+          cakeItem.className = 'cake-item';
+          cakeItem.innerHTML = `
+            <img src="${cake.image}" alt="${cake.name}">
+            <h3>${cake.name}</h3>
+            <p>Starting at <span class="price">$${cake.prices.Small}</span></p>
+            <button onclick="openOrderForm('${cake.name}', ${JSON.stringify(cake.prices)})">Order Now</button>
+          `;
+          cakeList.appendChild(cakeItem);
+        });
+      })
+      .catch(error => {
+        console.error('Error loading cakes:', error);
+        alert('Failed to load cake data. Please try again later.');
+      });
+
+    function openOrderForm(cakeName, prices) {
+      console.log('Opening order form for:', cakeName); // Debugging
+      console.log('Prices:', prices); // Debugging
+
+      currentPrices = prices; // Store prices for the selected cake
+      document.getElementById('cakeName').value = cakeName;
+      document.getElementById('cakeSize').selectedIndex = 0; // Reset size dropdown
+      document.getElementById('cakePrice').value = ''; // Reset price
+      document.getElementById('orderForm').style.display = 'block';
+    }
+
+    function closeOrderForm() {
+      document.getElementById('orderForm').style.display = 'none';
+    }
+
+    function updatePrice() {
+      const selectedSize = document.getElementById('cakeSize').value;
+      const price = currentPrices[selectedSize]; // Get price for the selected size
+      document.getElementById('cakePrice').value = `$${price}`; // Update price field
+    }
+  </script>
+</body>
+</html>
