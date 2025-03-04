@@ -2,7 +2,7 @@
   {
     "id": 1,
     "name": "Chocolate Cake",
-    "image": "cake1.jpg",
+    "image": "https://inbloombakery.com/wp-content/uploads/2022/04/chocolate-drip-cake-featured-image.jpg",
     "prices": {
       "Small": 20,
       "Medium": 30,
