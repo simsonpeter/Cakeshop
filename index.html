@@ -5,7 +5,129 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cake Shop</title>
   <style>
-    /* Add your CSS styles here */
+    /* General Styles */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background-color: #ff6f61;
+      padding: 20px;
+      text-align: center;
+      color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #333;
+      padding: 10px;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    .cake-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .cake-item {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      width: 200px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .cake-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .cake-item img {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+
+    .cake-item h3 {
+      margin: 10px 0;
+      font-size: 1.2em;
+    }
+
+    .cake-item p {
+      margin: 5px 0;
+      font-size: 0.9em;
+      color: #666;
+    }
+
+    .cake-item .price {
+      font-weight: bold;
+      color: #ff6f61;
+    }
+
+    .order-form {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    .order-form input,
+    .order-form select {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .order-form button {
+      background-color: #ff6f61;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .order-form button[type="button"] {
+      background-color: #333;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -51,8 +173,8 @@
   <script>
     let currentPrices = {};
 
-    // Fetch cake data from cakes.json
-    fetch('cakes.json')
+    // Fetch cake data from GitHub-hosted cakes.json
+    fetch('https://raw.githubusercontent.com/simsonpeter/Cakeshop/refs/heads/main/cakes.json')
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to load cakes.json');
@@ -60,7 +182,6 @@
         return response.json();
       })
       .then(data => {
-        console.log('Cake data loaded:', data); // Debugging
         const cakeList = document.getElementById('cakeList');
         data.forEach(cake => {
           const cakeItem = document.createElement('div');
@@ -68,6 +189,7 @@
           cakeItem.innerHTML = `
             <img src="${cake.image}" alt="${cake.name}">
             <h3>${cake.name}</h3>
+            <p>${cake.description}</p>
             <p>Starting at <span class="price">$${cake.prices.Small}</span></p>
             <button onclick="openOrderForm('${cake.name}', ${JSON.stringify(cake.prices)})">Order Now</button>
           `;
@@ -75,14 +197,11 @@
         });
       })
       .catch(error => {
-        console.error('Error loading cakes:', error); // Debugging
+        console.error('Error loading cakes:', error);
         alert('Failed to load cake data. Please try again later.');
       });
 
     function openOrderForm(cakeName, prices) {
-      console.log('Opening order form for:', cakeName); // Debugging
-      console.log('Prices:', prices); // Debugging
-
       currentPrices = prices; // Store prices for the selected cake
       document.getElementById('cakeName').value = cakeName;
       document.getElementById('cakeSize').selectedIndex = 0; // Reset size dropdown
@@ -96,12 +215,7 @@
 
     function updatePrice() {
       const selectedSize = document.getElementById('cakeSize').value;
-      console.log('Selected size:', selectedSize); // Debugging
-      console.log('Current prices:', currentPrices); // Debugging
-
       const price = currentPrices[selectedSize]; // Get price for the selected size
-      console.log('Updated price:', price); // Debugging
-
       document.getElementById('cakePrice').value = `$${price}`; // Update price field
     }
   </script>
