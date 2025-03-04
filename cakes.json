@@ -12,7 +12,7 @@
   {
     "id": 2,
     "name": "Vanilla Cake",
-    "image": "cake2.jpg",
+    "image": "https://www.onceuponachef.com/images/2012/11/Vanilla-Birthday-Cake-18-760x937.jpg",
     "prices": {
       "Small": 18,
       "Medium": 28,
@@ -22,7 +22,7 @@
   {
     "id": 3,
     "name": "Strawberry Cake",
-    "image": "cake3.jpg",
+    "image": "https://www.mybakingaddiction.com/wp-content/uploads/2023/06/chocolate-strawberry-cake-on-stand-hero-500x500.jpg",
     "prices": {
       "Small": 22,
       "Medium": 32,
