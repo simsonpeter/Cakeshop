@@ -164,6 +164,39 @@
             background: #ff5252;
         }
 
+        /* Order Modal */
+        .order-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .order-modal.open {
+            display: flex;
+        }
+
+        .order-content {
+            background: white;
+            width: 95%;
+            max-width: 400px;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .close-order-modal {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ff6b6b;
+        }
+
         /* Cart Modal */
         .cart-modal {
             display: none;
@@ -221,7 +254,7 @@
             border-radius: 8px;
         }
 
-        /* Prevent scrolling when cart is open */
+        /* Prevent scrolling when modal is open */
         .no-scroll {
             overflow: hidden;
         }
@@ -234,7 +267,7 @@
     </header>
 
     <!-- Floating Cart Button -->
-    <div class="floating-cart-button" onclick="toggleCart()" ontouchstart="toggleCart()">
+    <div class="floating-cart-button" id="cartButton">
         🛒 <span id="cart-count">0</span>
     </div>
 
@@ -249,10 +282,31 @@
     <!-- Cake Grid -->
     <main class="cake-grid" id="cake-container"></main>
 
+    <!-- Order Modal -->
+    <div class="order-modal" id="orderModal">
+        <div class="order-content">
+            <span class="close-order-modal" id="closeOrderModal">&times;</span>
+            <h2 id="modalTitle"></h2>
+            <form class="modal-form">
+                <select id="orderSize">
+                    <option value="Small">Small</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Large">Large</option>
+                </select>
+                <input type="number" id="orderQty" min="1" value="1" placeholder="Quantity">
+                <input type="date" id="orderDate" required>
+                <div class="modal-buttons">
+                    <button type="button" class="order-button" onclick="closeOrderModal()">Cancel</button>
+                    <button type="button" class="order-button" onclick="addToCart()">Add to Cart</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Cart Modal -->
     <div class="cart-modal" id="cartModal">
         <div class="cart-content">
-            <span class="close-cart" onclick="toggleCart()">&times;</span>
+            <span class="close-cart" id="closeCart">&times;</span>
             <h2>Your Cart</h2>
             <div id="cartItems"></div>
             <p style="font-size: 1.2rem; margin: 2rem 0;">Total: €<span id="cartTotal">0.00</span></p>
@@ -301,10 +355,19 @@
                         <div class="cake-prices">
                             Small: €${cake.prices.Small} | Medium: €${cake.prices.Medium} | Large: €${cake.prices.Large}
                         </div>
-                        <button class="order-button" onclick="showOrderModal('${cake.name}')">Order Now</button>
+                        <button class="order-button" data-cake="${cake.name}">Order Now</button>
                     </div>
                 `;
                 container.appendChild(card);
+            });
+
+            // Add event listeners to "Order Now" buttons
+            document.querySelectorAll('.order-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const cakeName = button.dataset.cake;
+                    console.log('Order Now clicked for:', cakeName); // Debugging
+                    showOrderModal(cakeName);
+                });
             });
         }
 
@@ -312,13 +375,14 @@
         function showOrderModal(cakeName) {
             currentCake = window.cakesData.find(c => c.name === cakeName);
             document.getElementById('modalTitle').textContent = cakeName;
-            document.getElementById('orderModal').style.display = 'flex';
-            document.getElementById('orderDate').value = '';
+            document.getElementById('orderModal').classList.add('open');
+            document.body.classList.add('no-scroll');
         }
 
-        // Close modal
-        function closeModal() {
-            document.getElementById('orderModal').style.display = 'none';
+        // Close order modal
+        function closeOrderModal() {
+            document.getElementById('orderModal').classList.remove('open');
+            document.body.classList.remove('no-scroll');
         }
 
         // Add to cart
@@ -345,7 +409,7 @@
 
             updateCartDisplay();
             saveCart();
-            closeModal();
+            closeOrderModal();
         }
 
         // Update cart display
@@ -428,9 +492,17 @@
             loadCart();
         };
 
+        // Add event listeners for cart button
+        const cartButton = document.getElementById('cartButton');
+        cartButton.addEventListener('click', toggleCart);
+
         // Close modal on outside click
         document.addEventListener('click', function(event) {
+            const orderModal = document.getElementById('orderModal');
             const cartModal = document.getElementById('cartModal');
+            if (event.target === orderModal) {
+                closeOrderModal();
+            }
             if (event.target === cartModal) {
                 toggleCart();
             }
@@ -438,7 +510,11 @@
 
         // Close modal on touch outside (mobile)
         document.addEventListener('touchstart', function(event) {
+            const orderModal = document.getElementById('orderModal');
             const cartModal = document.getElementById('cartModal');
+            if (event.target === orderModal) {
+                closeOrderModal();
+            }
             if (event.target === cartModal) {
                 toggleCart();
             }
