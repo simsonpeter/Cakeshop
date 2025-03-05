@@ -72,10 +72,8 @@
             font-weight: bold;
         }
 
-        /* Hero Section */
+      /* Hero Section with Slideshow */
         .hero {
-            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), 
-                        url('https://images.unsplash.com/photo-1557925923-cd4648e211a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
             height: 400px;
             background-size: cover;
             background-position: center;
@@ -83,12 +81,15 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
         }
 
         .hero-content {
             text-align: center;
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            z-index: 1;
         }
 
         .hero h2 {
@@ -100,6 +101,50 @@
         .hero p {
             font-size: 1.4rem;
             opacity: 0.9;
+        }
+
+        /* Slideshow Animation */
+        @keyframes slideshow {
+            0%, 100% {
+                opacity: 0;
+            }
+            10%, 90% {
+                opacity: 1;
+            }
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 0;
+        }
+
+        .hero img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            animation: slideshow 12s infinite;
+        }
+
+        .hero img:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .hero img:nth-child(2) {
+            animation-delay: 4s;
+        }
+
+        .hero img:nth-child(3) {
+            animation-delay: 8s;
         }
 
         /* Cake Grid */
@@ -349,8 +394,11 @@
         🛒 <span id="cart-count">0</span>
     </div>
 
-    <!-- Hero Section -->
+      <!-- Hero Section with Slideshow -->
     <section class="hero">
+        <img src="https://images.unsplash.com/photo-1557925923-cd4648e211a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Hero Image 1">
+        <img src="https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Hero Image 2">
+        <img src="https://images.unsplash.com/photo-1519869325930-281384150729?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Hero Image 3">
         <div class="hero-content">
             <h2>Freshly Baked for Every Occasion</h2>
             <p>Handcrafted with Love</p>
