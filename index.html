@@ -164,8 +164,8 @@
             background: #ff5252;
         }
 
-        /* Modal */
-        .modal-overlay {
+        /* Cart Modal */
+        .cart-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -178,48 +178,25 @@
             z-index: 2000;
         }
 
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 400px;
-        }
-
-        .modal-form input,
-        .modal-form select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 1rem;
-            border: 2px solid #eee;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-
-        .modal-buttons {
+        .cart-modal.open {
             display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
         }
 
-        /* Cart Sidebar */
-        .cart-sidebar {
-            position: fixed;
-            right: -100%;
-            top: 0;
-            width: 100%;
-            max-width: 380px;
-            height: 100vh;
+        .cart-content {
             background: white;
-            box-shadow: -2px 0 15px rgba(0,0,0,0.1);
-            padding: 2rem;
-            transition: right 0.3s ease;
-            z-index: 1500;
+            width: 95%;
+            max-width: 500px;
+            max-height: 80vh;
+            border-radius: 15px;
+            padding: 20px;
             overflow-y: auto;
         }
 
-        .cart-open {
-            right: 0;
+        .close-cart {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ff6b6b;
         }
 
         .cart-item {
@@ -248,21 +225,6 @@
         .no-scroll {
             overflow: hidden;
         }
-
-        @media (max-width: 768px) {
-            .header-title {
-                font-size: 2rem;
-            }
-            
-            .hero h2 {
-                font-size: 2.5rem;
-            }
-            
-            .cart-sidebar {
-                width: 100%;
-                right: -100%;
-            }
-        }
     </style>
 </head>
 <body>
@@ -287,41 +249,24 @@
     <!-- Cake Grid -->
     <main class="cake-grid" id="cake-container"></main>
 
-    <!-- Order Modal -->
-    <div class="modal-overlay" id="orderModal">
-        <div class="modal-content">
-            <h2 id="modalTitle"></h2>
-            <form class="modal-form">
-                <select id="orderSize">
-                    <option value="Small">Small</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Large">Large</option>
-                </select>
-                <input type="number" id="orderQty" min="1" value="1" placeholder="Quantity">
-                <input type="date" id="orderDate" required>
-                <div class="modal-buttons">
-                    <button type="button" class="order-button" onclick="closeModal()">Cancel</button>
-                    <button type="button" class="order-button" onclick="addToCart()">Add to Cart</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Cart Sidebar -->
-    <div class="cart-sidebar" id="cartSidebar">
-        <h2>Your Cart</h2>
-        <div id="cartItems"></div>
-        <p style="font-size: 1.2rem; margin: 2rem 0;">Total: €<span id="cartTotal">0.00</span></p>
-        
-        <div class="checkout-form">
-            <h3>Checkout Details</h3>
-            <form id="checkoutForm" action="https://formspree.io/f/mgvogbzj" method="POST">
-                <input type="text" name="name" placeholder="Full Name" required>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="tel" name="phone" placeholder="Phone Number" required>
-                <input type="hidden" name="order_details" id="orderDetails">
-                <button type="submit" class="order-button" style="margin-top: 1rem;">Complete Order</button>
-            </form>
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <span class="close-cart" onclick="toggleCart()">&times;</span>
+            <h2>Your Cart</h2>
+            <div id="cartItems"></div>
+            <p style="font-size: 1.2rem; margin: 2rem 0;">Total: €<span id="cartTotal">0.00</span></p>
+            
+            <div class="checkout-form">
+                <h3>Checkout Details</h3>
+                <form id="checkoutForm" action="https://formspree.io/f/mgvogbzj" method="POST">
+                    <input type="text" name="name" placeholder="Full Name" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="tel" name="phone" placeholder="Phone Number" required>
+                    <input type="hidden" name="order_details" id="orderDetails">
+                    <button type="submit" class="order-button" style="margin-top: 1rem;">Complete Order</button>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -437,10 +382,10 @@
             saveCart();
         }
 
-        // Toggle cart
+        // Toggle cart modal
         function toggleCart() {
-            const cartSidebar = document.getElementById('cartSidebar');
-            cartSidebar.classList.toggle('cart-open');
+            const cartModal = document.getElementById('cartModal');
+            cartModal.classList.toggle('open');
             document.body.classList.toggle('no-scroll');
         }
 
@@ -484,11 +429,20 @@
         };
 
         // Close modal on outside click
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal-overlay')) {
-                closeModal();
+        document.addEventListener('click', function(event) {
+            const cartModal = document.getElementById('cartModal');
+            if (event.target === cartModal) {
+                toggleCart();
             }
-        };
+        });
+
+        // Close modal on touch outside (mobile)
+        document.addEventListener('touchstart', function(event) {
+            const cartModal = document.getElementById('cartModal');
+            if (event.target === cartModal) {
+                toggleCart();
+            }
+        });
     </script>
 </body>
 </html>
