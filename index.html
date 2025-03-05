@@ -303,6 +303,11 @@
             font-size: 24px;
             cursor: pointer;
             color: #ff6b6b;
+            transition: color 0.3s ease;
+        }
+
+        .close-cart:hover {
+            color: #ff5252;
         }
 
         .cart-item {
@@ -563,6 +568,10 @@
             window.cakesData = await (await fetch('https://raw.githubusercontent.com/simsonpeter/Cakeshop/main/cakes.json')).json();
             displayCakes(window.cakesData);
             loadCart();
+
+            // Add event listeners for close buttons
+            document.getElementById('closeOrderModal').addEventListener('click', closeOrderModal);
+            document.getElementById('closeCart').addEventListener('click', toggleCart);
         };
 
         // Add event listeners for cart button
