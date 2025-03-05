@@ -44,24 +44,32 @@
             gap: 0.5rem;
         }
 
-        .cart-button {
-            background: #ffffff;
-            color: #ff6b6b;
-            padding: 0.8rem 1.5rem;
-            border-radius: 25px;
-            font-weight: bold;
-            border: none;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
+        /* Floating Cart Button */
+        .floating-cart-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #ff6b6b;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.3s ease;
         }
 
-        .cart-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        .floating-cart-button:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-cart-button span {
+            font-size: 1.2rem;
+            font-weight: bold;
         }
 
         /* Hero Section */
@@ -261,10 +269,12 @@
     <!-- Sticky Header -->
     <header class="header">
         <h1 class="header-title">Neti Arts</h1>
-        <button class="cart-button" onclick="toggleCart()" ontouchstart="toggleCart()">
-            🛒 Cart (<span id="cart-count">0</span>)
-        </button>
     </header>
+
+    <!-- Floating Cart Button -->
+    <div class="floating-cart-button" onclick="toggleCart()" ontouchstart="toggleCart()">
+        🛒 <span id="cart-count">0</span>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero">
