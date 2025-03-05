@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Neti Arts</title>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -197,9 +197,10 @@
         /* Cart Sidebar */
         .cart-sidebar {
             position: fixed;
-            right: -400px;
+            right: -100%;
             top: 0;
-            width: 380px;
+            width: 100%;
+            max-width: 380px;
             height: 100vh;
             background: white;
             box-shadow: -2px 0 15px rgba(0,0,0,0.1);
@@ -235,7 +236,7 @@
             border-radius: 8px;
         }
 
-        /* FIX: Prevent scrolling when cart is open */
+        /* Prevent scrolling when cart is open */
         .no-scroll {
             overflow: hidden;
         }
@@ -260,7 +261,6 @@
     <!-- Sticky Header -->
     <header class="header">
         <h1 class="header-title">Neti Arts</h1>
-        <!-- FIX: Add touch event for mobile -->
         <button class="cart-button" onclick="toggleCart()" ontouchstart="toggleCart()">
             🛒 Cart (<span id="cart-count">0</span>)
         </button>
@@ -269,8 +269,8 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h2>freshly baked for every occasion</h2>
-            <p>Handcrafted with love</p>
+            <h2>Freshly Baked for Every Occasion</h2>
+            <p>Handcrafted with Love</p>
         </div>
     </section>
 
@@ -408,7 +408,7 @@
                     <div class="cart-item">
                         <div>
                             <h4>${item.quantity}x ${item.cake} (${item.size})</h4>
-                            <p>$${item.price.toFixed(2)}</p>
+                            <p>€${item.price.toFixed(2)}</p>
                             <small>Pickup: ${item.date}</small>
                         </div>
                         <span class="remove-item" onclick="removeFromCart(${index})">×</span>
@@ -431,7 +431,7 @@
         function toggleCart() {
             const cartSidebar = document.getElementById('cartSidebar');
             cartSidebar.classList.toggle('cart-open');
-            document.body.classList.toggle('no-scroll'); // FIX: Prevent scrolling
+            document.body.classList.toggle('no-scroll');
         }
 
         // Save cart
@@ -453,7 +453,7 @@
             e.preventDefault();
             
             const orderDetails = cart.map(item => 
-                `${item.quantity}x ${item.cake} (${item.size}) - $${item.price.toFixed(2)} - Pickup: ${item.date}`
+                `${item.quantity}x ${item.cake} (${item.size}) - €${item.price.toFixed(2)} - Pickup: ${item.date}`
             ).join('\n');
 
             document.getElementById('orderDetails').value = orderDetails;
@@ -474,33 +474,11 @@
         };
 
         // Close modal on outside click
-        document.addEventListener('click', function(event) {
+        window.onclick = function(event) {
             if (event.target.classList.contains('modal-overlay')) {
                 closeModal();
             }
-        });
-
-        // FIX: Close cart on outside click
-        document.addEventListener('click', function(event) {
-            const cartSidebar = document.getElementById('cartSidebar');
-            const cartButton = document.querySelector('.cart-button');
-
-            if (!cartSidebar.contains(event.target) && !cartButton.contains(event.target)) {
-                cartSidebar.classList.remove('cart-open');
-                document.body.classList.remove('no-scroll');
-            }
-        });
-
-        // FIX: Add touch events for mobile
-        document.addEventListener('touchstart', function(event) {
-            const cartSidebar = document.getElementById('cartSidebar');
-            const cartButton = document.querySelector('.cart-button');
-
-            if (!cartSidebar.contains(event.target) && !cartButton.contains(event.target)) {
-                cartSidebar.classList.remove('cart-open');
-                document.body.classList.remove('no-scroll');
-            }
-        });
+        };
     </script>
 </body>
 </html>
