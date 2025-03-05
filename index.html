@@ -172,7 +172,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             justify-content: center;
             align-items: center;
             z-index: 2000;
@@ -188,6 +188,19 @@
             max-width: 400px;
             border-radius: 15px;
             padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .close-order-modal {
@@ -195,6 +208,66 @@
             font-size: 24px;
             cursor: pointer;
             color: #ff6b6b;
+            transition: color 0.3s ease;
+        }
+
+        .close-order-modal:hover {
+            color: #ff5252;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            color: #5a4d41;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .modal-form input,
+        .modal-form select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 1rem;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .modal-form input:focus,
+        .modal-form select:focus {
+            border-color: #ff6b6b;
+            outline: none;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-buttons .order-button {
+            flex: 1;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .modal-buttons .order-button:hover {
+            background: #ff5252;
+        }
+
+        .modal-buttons .order-button.cancel {
+            background: #eee;
+            color: #5a4d41;
+        }
+
+        .modal-buttons .order-button.cancel:hover {
+            background: #ddd;
         }
 
         /* Cart Modal */
@@ -286,7 +359,7 @@
     <div class="order-modal" id="orderModal">
         <div class="order-content">
             <span class="close-order-modal" id="closeOrderModal">&times;</span>
-            <h2 id="modalTitle"></h2>
+            <h2 class="modal-title" id="modalTitle"></h2>
             <form class="modal-form">
                 <select id="orderSize">
                     <option value="Small">Small</option>
@@ -296,7 +369,7 @@
                 <input type="number" id="orderQty" min="1" value="1" placeholder="Quantity">
                 <input type="date" id="orderDate" required>
                 <div class="modal-buttons">
-                    <button type="button" class="order-button" onclick="closeOrderModal()">Cancel</button>
+                    <button type="button" class="order-button cancel" onclick="closeOrderModal()">Cancel</button>
                     <button type="button" class="order-button" onclick="addToCart()">Add to Cart</button>
                 </div>
             </form>
@@ -409,7 +482,7 @@
 
             updateCartDisplay();
             saveCart();
-            closeOrderModal();
+            closeOrderModal(); // Close the modal after adding to cart
         }
 
         // Update cart display
