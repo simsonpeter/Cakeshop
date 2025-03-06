@@ -47,7 +47,7 @@
         /* Floating Cart Button */
         .floating-cart-button {
             position: fixed;
-            bottom: 20px;
+            bottom: 80px; /* Adjusted to avoid overlap with bottom tabs */
             right: 20px;
             background: #ff6b6b;
             color: white;
@@ -72,7 +72,7 @@
             font-weight: bold;
         }
 
-      /* Hero Section with Slideshow */
+        /* Hero Section with Slideshow */
         .hero {
             height: 400px;
             background-size: cover;
@@ -102,54 +102,6 @@
             font-size: 1.4rem;
             opacity: 0.9;
         }
-        /* Sticky Bottom Tabs */
-.bottom-tabs {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: #fff;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-}
-
-.tab {
-    padding: 1rem;
-    text-align: center;
-    cursor: pointer;
-    font-size: 1rem;
-    color: #5a4d41;
-    transition: background 0.3s ease, color 0.3s ease;
-}
-
-.tab:hover {
-    background: #ff6b6b;
-    color: white;
-}
-
-/* About Us Section */
-.about-us-section {
-    padding: 4rem 2rem;
-    background: #fff9f5;
-    text-align: center;
-}
-
-.about-us-section h2 {
-    font-family: 'Pacifico', cursive;
-    font-size: 2.5rem;
-    color: #5a4d41;
-    margin-bottom: 1rem;
-}
-
-.about-us-section p {
-    font-size: 1.2rem;
-    color: #5a4d41;
-    max-width: 800px;
-    margin: 0 auto;
-}
 
         /* Slideshow Animation */
         @keyframes slideshow {
@@ -425,9 +377,118 @@
             border-radius: 8px;
         }
 
+        /* Sticky Bottom Tabs */
+        .bottom-tabs {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .tab {
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #5a4d41;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .tab:hover {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        /* About Us Modal */
+        .about-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .about-modal.open {
+            display: flex;
+        }
+
+        .about-content {
+            background: white;
+            width: 95%;
+            max-width: 500px;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease;
+        }
+
+        .close-about-modal {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ff6b6b;
+            transition: color 0.3s ease;
+        }
+
+        .close-about-modal:hover {
+            color: #ff5252;
+        }
+
         /* Prevent scrolling when modal is open */
         .no-scroll {
             overflow: hidden;
+        }
+             /* Social Stories Modals */
+        .social-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .social-modal.open {
+            display: flex;
+        }
+
+        .social-content {
+            background: white;
+            width: 95%;
+            max-width: 500px;
+            max-height: 90vh;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .story-iframe {
+            width: 100%;
+            height: 700px;
+            border: none;
+        }
+
+        .close-social-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -436,33 +497,13 @@
     <header class="header">
         <h1 class="header-title">Neti Arts</h1>
     </header>
-<!-- Sticky Bottom Tabs -->
-<div class="bottom-tabs">
-    <div class="tab" onclick="scrollToSection('cake-container')">
-        🎂 Cake
-    </div>
-    <div class="tab" onclick="window.open('https://facebook.com', '_blank')">
-        📘 Facebook
-    </div>
-    <div class="tab" onclick="window.open('https://instagram.com', '_blank')">
-        📸 Instagram
-    </div>
-    <div class="tab" onclick="scrollToSection('about-us')">
-        ℹ️ About Us
-    </div>
-</div>
 
-<!-- About Us Section -->
-<section id="about-us" class="about-us-section">
-    <h2>About Us</h2>
-    <p>Welcome to Neti Arts! We specialize in handcrafted cakes made with love and care. Our mission is to bring joy to your special occasions with our delicious creations.</p>
-</section>
     <!-- Floating Cart Button -->
     <div class="floating-cart-button" id="cartButton">
         🛒 <span id="cart-count">0</span>
     </div>
 
-      <!-- Hero Section with Slideshow -->
+    <!-- Hero Section with Slideshow -->
     <section class="hero">
         <img src="https://images.unsplash.com/photo-1557925923-cd4648e211a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Hero Image 1">
         <img src="https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Hero Image 2">
@@ -517,7 +558,46 @@
             </div>
         </div>
     </div>
+       <!-- Social Stories Modals -->
+    <div class="social-modal" id="facebookStories">
+        <span class="close-social-modal" onclick="closeSocialModal('facebook')">&times;</span>
+        <div class="social-content">
+            <iframe class="story-iframe" src="https://www.facebook.com/share/1C7HN3bC7W/"></iframe>
+        </div>
+    </div>
 
+    <div class="social-modal" id="instagramStories">
+        <span class="close-social-modal" onclick="closeSocialModal('instagram')">&times;</span>
+        <div class="social-content">
+            <iframe class="story-iframe" src="https://www.instagram.com/p/Cs7JqK2Nw7v/embed"></iframe>
+        </div>
+    </div>
+    
+    <!-- About Us Modal -->
+    <div class="about-modal" id="aboutModal">
+        <div class="about-content">
+            <span class="close-about-modal" id="closeAboutModal">&times;</span>
+            <h2>About Us</h2>
+            <p>Welcome to Neti Arts! We specialize in handcrafted cakes made with love and care. Our mission is to bring joy to your special occasions with our delicious creations.</p>
+        </div>
+    </div>
+
+    <!-- Sticky Bottom Tabs -->
+        <div class="bottom-tabs">
+        <div class="tab" onclick="scrollToSection('cake-container')">
+            🎂 Cakes
+        </div>
+        <div class="tab" onclick="openSocialModal('facebook')">
+            📘 Facebook
+        </div>
+        <div class="tab" onclick="openSocialModal('instagram')">
+            📸 Instagram
+        </div>
+        <div class="tab" onclick="openAboutModal()">
+            ℹ️ About Us
+        </div>
+    </div>
+    
     <script>
         let cart = [];
         let currentCake = null;
@@ -678,6 +758,52 @@
             toggleCart();
             alert('Order placed successfully!');
         });
+       
+        // Add these functions
+        function openSocialModal(platform) {
+            if(platform === 'facebook') {
+                document.getElementById('facebookStories').classList.add('open');
+            } else {
+                document.getElementById('instagramStories').classList.add('open');
+            }
+            document.body.classList.add('no-scroll');
+        }
+
+        function closeSocialModal(platform) {
+            if(platform === 'facebook') {
+                document.getElementById('facebookStories').classList.remove('open');
+            } else {
+                document.getElementById('instagramStories').classList.remove('open');
+            }
+            document.body.classList.remove('no-scroll');
+        }
+
+        // Update modal closing logic
+        document.addEventListener('click', function(event) {
+            if(event.target.classList.contains('social-modal')) {
+                event.target.classList.remove('open');
+                document.body.classList.remove('no-scroll');
+            }
+        });
+        // Function to scroll to a specific section
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Function to open About Us modal
+        function openAboutModal() {
+            document.getElementById('aboutModal').classList.add('open');
+            document.body.classList.add('no-scroll');
+        }
+
+        // Function to close About Us modal
+        function closeAboutModal() {
+            document.getElementById('aboutModal').classList.remove('open');
+            document.body.classList.remove('no-scroll');
+        }
 
         // Initialize
         window.onload = async () => {
@@ -688,6 +814,7 @@
             // Add event listeners for close buttons
             document.getElementById('closeOrderModal').addEventListener('click', closeOrderModal);
             document.getElementById('closeCart').addEventListener('click', toggleCart);
+            document.getElementById('closeAboutModal').addEventListener('click', closeAboutModal);
         };
 
         // Add event listeners for cart button
@@ -698,11 +825,15 @@
         document.addEventListener('click', function(event) {
             const orderModal = document.getElementById('orderModal');
             const cartModal = document.getElementById('cartModal');
+            const aboutModal = document.getElementById('aboutModal');
             if (event.target === orderModal) {
                 closeOrderModal();
             }
             if (event.target === cartModal) {
                 toggleCart();
+            }
+            if (event.target === aboutModal) {
+                closeAboutModal();
             }
         });
 
@@ -710,20 +841,17 @@
         document.addEventListener('touchstart', function(event) {
             const orderModal = document.getElementById('orderModal');
             const cartModal = document.getElementById('cartModal');
+            const aboutModal = document.getElementById('aboutModal');
             if (event.target === orderModal) {
                 closeOrderModal();
             }
             if (event.target === cartModal) {
                 toggleCart();
             }
+            if (event.target === aboutModal) {
+                closeAboutModal();
+            }
         });
-        // Function to scroll to a specific section
-function scrollToSection(sectionId) {
-    const section = document.getElementById(sectionId);
-    if (section) {
-        section.scrollIntoView({ behavior: 'smooth' });
-    }
-}
     </script>
 </body>
 </html>
