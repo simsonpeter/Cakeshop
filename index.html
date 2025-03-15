@@ -709,4 +709,228 @@
             // Add event listeners to "Order Now" buttons
             document.querySelectorAll('.order-button').forEach(button => {
                 button.addEventListener('click', () => {
-                    const cakeName = bu
+                    const cakeName = button.dataset.cake;
+                    showOrderModal(cakeName);
+                });
+            });
+        }
+
+        // Show order modal
+        function showOrderModal(cakeName) {
+            currentCake = window.cakesData.find(c => c.name === cakeName);
+            document.getElementById('modalTitle').textContent = cakeName;
+            document.getElementById('orderModal').classList.add('open');
+            document.body.classList.add('no-scroll');
+        }
+
+        // Close order modal
+        function closeOrderModal() {
+            document.getElementById('orderModal').classList.remove('open');
+            document.body.classList.remove('no-scroll');
+        }
+
+        // Add to cart
+        function addToCart() {
+            const size = document.getElementById('orderSize').value;
+            const quantity = parseInt(document.getElementById('orderQty').value);
+            const date = document.getElementById('orderDate').value;
+
+            if (!date) {
+                alert('Please select a pickup date');
+                return;
+            }
+
+            const price = currentCake.prices[size] * quantity;
+
+            cart.push({
+                cake: currentCake.name,
+                size,
+                quantity,
+                date,
+                price,
+                image: currentCake.image
+            });
+
+            updateCartDisplay();
+            saveCart();
+            closeOrderModal();
+        }
+
+        // Update cart display
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            const cartCount = document.getElementById('cart-count');
+            
+            cartItems.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                cartItems.innerHTML += `
+                    <div class="cart-item">
+                        <div>
+                            <h4>${item.quantity}x ${item.cake} (${item.size})</h4>
+                            <p>€${item.price.toFixed(2)}</p>
+                            <small>Pickup: ${item.date}</small>
+                        </div>
+                        <span class="remove-item" onclick="removeFromCart(${index})">×</span>
+                    </div>
+                `;
+            });
+
+            cartTotal.textContent = total.toFixed(2);
+            cartCount.textContent = cart.length;
+        }
+
+        // Remove item from cart
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+            saveCart();
+        }
+
+        // Toggle cart modal
+        function toggleCart() {
+            const cartModal = document.getElementById('cartModal');
+            cartModal.classList.toggle('open');
+            document.body.classList.toggle('no-scroll');
+        }
+
+        // Save cart
+        function saveCart() {
+            localStorage.setItem(CART_KEY, JSON.stringify(cart));
+        }
+
+        // Load cart
+        function loadCart() {
+            const savedCart = localStorage.getItem(CART_KEY);
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+                updateCartDisplay();
+            }
+        }
+
+        // Send order to WhatsApp
+        function sendOrderToWhatsApp() {
+            const name = document.getElementById('customerName').value;
+            const email = document.getElementById('customerEmail').value;
+            const phone = document.getElementById('customerPhone').value;
+
+            if (!name || !email || !phone) {
+                alert('Please fill in all customer details');
+                return;
+            }
+
+            let orderDetails = "Order Details:\n";
+            cart.forEach((item) => {
+                orderDetails += `${item.quantity}x ${item.cake} (${item.size}) - €${item.price.toFixed(2)} - Pickup: ${item.date}\n`;
+            });
+
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            orderDetails += `\nTotal: €${total.toFixed(2)}\n\n`;
+            orderDetails += `Customer Details:\nName: ${name}\nEmail: ${email}\nPhone: ${phone}`;
+
+            const encodedMessage = encodeURIComponent(orderDetails);
+            const whatsappNumber = "+32 465 11 17 13"; // Replace with your WhatsApp number
+            const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+            window.open(whatsappLink, "_blank");
+
+            // Clear cart after sending
+            cart = [];
+            localStorage.removeItem(CART_KEY);
+            updateCartDisplay();
+            toggleCart();
+        }
+
+        // Open social modal
+        function openSocialModal(platform) {
+            if (platform === 'facebook') {
+                document.getElementById('facebookStories').classList.add('open');
+            } else {
+                document.getElementById('instagramStories').classList.add('open');
+            }
+            document.body.classList.add('no-scroll');
+        }
+
+        // Close social modal
+        function closeSocialModal(platform) {
+            if (platform === 'facebook') {
+                document.getElementById('facebookStories').classList.remove('open');
+            } else {
+                document.getElementById('instagramStories').classList.remove('open');
+            }
+            document.body.classList.remove('no-scroll');
+        }
+
+        // Initialize
+        window.onload = async () => {
+            window.cakesData = await (await fetch('https://raw.githubusercontent.com/simsonpeter/Cakeshop/main/cakes.json')).json();
+            displayCakes(window.cakesData);
+            loadCart();
+
+            // Add event listeners for close buttons
+            document.getElementById('closeOrderModal').addEventListener('click', closeOrderModal);
+            document.getElementById('closeCart').addEventListener('click', toggleCart);
+            document.getElementById('closeAboutModal').addEventListener('click', closeAboutModal);
+        };
+
+        // Add event listeners for cart button
+        const cartButton = document.getElementById('cartButton');
+        cartButton.addEventListener('click', toggleCart);
+
+        // Close modal on outside click
+        document.addEventListener('click', function(event) {
+            const orderModal = document.getElementById('orderModal');
+            const cartModal = document.getElementById('cartModal');
+            const aboutModal = document.getElementById('aboutModal');
+            if (event.target === orderModal) {
+                closeOrderModal();
+            }
+            if (event.target === cartModal) {
+                toggleCart();
+            }
+            if (event.target === aboutModal) {
+                closeAboutModal();
+            }
+        });
+
+        // Close modal on touch outside (mobile)
+        document.addEventListener('touchstart', function(event) {
+            const orderModal = document.getElementById('orderModal');
+            const cartModal = document.getElementById('cartModal');
+            const aboutModal = document.getElementById('aboutModal');
+            if (event.target === orderModal) {
+                closeOrderModal();
+            }
+            if (event.target === cartModal) {
+                toggleCart();
+            }
+            if (event.target === aboutModal) {
+                closeAboutModal();
+            }
+        });
+
+        // Function to scroll to a specific section
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Function to open About Us modal
+        function openAboutModal() {
+            document.getElementById('aboutModal').classList.add('open');
+            document.body.classList.add('no-scroll');
+        }
+
+        // Function to close About Us modal
+        function closeAboutModal() {
+            document.getElementById('aboutModal').classList.remove('open');
+            document.body.classList.remove('no-scroll');
+        }
+    </script>
+</body>
+</html>
