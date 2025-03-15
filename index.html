@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <title>Neti Arts</title>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -18,7 +17,7 @@
             background: #fff9f5;
             color: #5a4d41;
             padding-top: 120px;
-            padding-bottom: 100px;
+            padding-bottom: 100px; /* Added padding for bottom tabs */
         }
 
         /* Sticky Header */
@@ -48,22 +47,23 @@
 
         /* Floating Cart Button */
         .floating-cart-button {
-    position: fixed;
-    bottom: 80px; /* Adjusted to avoid overlap with bottom tabs */
-    right: 20px;
-    background: #ff6b6b;
-    color: white; /* Add this line to make the cart icon white */
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    cursor: pointer;
-    z-index: 1000;
-    transition: transform 0.3s ease;
-}
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: #ff6b6b;
+            color: white; /* White cart icon */
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
         .floating-cart-button:hover {
             transform: scale(1.1);
         }
@@ -152,7 +152,7 @@
         .cake-grid {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 20px 100px; /* Added padding for bottom tabs */
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 30px;
@@ -324,7 +324,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             justify-content: center;
             align-items: center;
             z-index: 2000;
@@ -342,18 +342,15 @@
             border-radius: 15px;
             padding: 20px;
             overflow-y: auto;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease;
         }
 
-        .close-cart {
-            float: right;
-            font-size: 24px;
-            cursor: pointer;
-            color: #ff6b6b;
-            transition: color 0.3s ease;
-        }
-
-        .close-cart:hover {
-            color: #ff5252;
+        .cart-content h2 {
+            font-size: 2rem;
+            color: #5a4d41;
+            margin-bottom: 1.5rem;
+            text-align: center;
         }
 
         .cart-item {
@@ -364,10 +361,60 @@
             border-bottom: 1px solid #eee;
         }
 
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item h4 {
+            font-size: 1.2rem;
+            color: #5a4d41;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item p {
+            font-size: 1rem;
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .cart-item small {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
         .remove-item {
             color: #ff6b6b;
             cursor: pointer;
             font-weight: bold;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .remove-item:hover {
+            color: #ff5252;
+        }
+
+        .cart-total {
+            font-size: 1.5rem;
+            color: #5a4d41;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .cart-total span {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .checkout-form {
+            margin-top: 1.5rem;
+        }
+
+        .checkout-form h3 {
+            font-size: 1.5rem;
+            color: #5a4d41;
+            margin-bottom: 1rem;
+            text-align: center;
         }
 
         .checkout-form input {
@@ -376,6 +423,29 @@
             margin-bottom: 1rem;
             border: 2px solid #eee;
             border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .checkout-form input:focus {
+            border-color: #ff6b6b;
+            outline: none;
+        }
+
+        .checkout-form button {
+            width: 100%;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .checkout-form button:hover {
+            background: #ff5252;
         }
 
         /* Sticky Bottom Tabs */
@@ -390,6 +460,7 @@
             align-items: center;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
             z-index: 1000;
+            height: 80px; /* Fixed height for bottom tabs */
         }
 
         .tab {
@@ -450,7 +521,8 @@
         .no-scroll {
             overflow: hidden;
         }
-             /* Social Stories Modals */
+
+        /* Social Stories Modals */
         .social-modal {
             display: none;
             position: fixed;
@@ -500,10 +572,10 @@
     </header>
 
     <!-- Floating Cart Button -->
-<div class="floating-cart-button" id="cartButton">
-    <i class="fas fa-shopping-cart"></i> <!-- Font Awesome cart icon -->
-    <span id="cart-count">0</span>
-</div>
+    <div class="floating-cart-button" id="cartButton">
+        🛒 <span id="cart-count">0</span>
+    </div>
+
     <!-- Hero Section with Slideshow -->
     <section class="hero">
         <img src="https://images.unsplash.com/photo-1557925923-cd4648e211a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Hero Image 1">
@@ -545,21 +617,19 @@
             <span class="close-cart" id="closeCart">&times;</span>
             <h2>Your Cart</h2>
             <div id="cartItems"></div>
-            <p style="font-size: 1.2rem; margin: 2rem 0;">Total: €<span id="cartTotal">0.00</span></p>
+            <p class="cart-total">Total: €<span id="cartTotal">0.00</span></p>
             
             <div class="checkout-form">
                 <h3>Checkout Details</h3>
-                <form id="checkoutForm" action="https://formspree.io/f/mgvogbzj" method="POST">
-                    <input type="text" name="name" placeholder="Full Name" required>
-                    <input type="email" name="email" placeholder="Email" required>
-                    <input type="tel" name="phone" placeholder="Phone Number" required>
-                    <input type="hidden" name="order_details" id="orderDetails">
-                    <button type="submit" class="order-button" style="margin-top: 1rem;">Complete Order</button>
-                </form>
+                <input type="text" id="customerName" placeholder="Full Name" required>
+                <input type="email" id="customerEmail" placeholder="Email" required>
+                <input type="tel" id="customerPhone" placeholder="Phone Number" required>
+                <button type="button" class="order-button" onclick="sendOrderToWhatsApp()">Complete Order via WhatsApp</button>
             </div>
         </div>
     </div>
-       <!-- Social Stories Modals -->
+
+    <!-- Social Stories Modals -->
     <div class="social-modal" id="facebookStories">
         <span class="close-social-modal" onclick="closeSocialModal('facebook')">&times;</span>
         <div class="social-content">
@@ -573,7 +643,7 @@
             <iframe class="story-iframe" src="https://www.instagram.com/p/Cs7JqK2Nw7v/embed"></iframe>
         </div>
     </div>
-    
+
     <!-- About Us Modal -->
     <div class="about-modal" id="aboutModal">
         <div class="about-content">
@@ -584,7 +654,7 @@
     </div>
 
     <!-- Sticky Bottom Tabs -->
-        <div class="bottom-tabs">
+    <div class="bottom-tabs">
         <div class="tab" onclick="scrollToSection('cake-container')">
             🎂 Cakes
         </div>
@@ -598,7 +668,7 @@
             ℹ️ About Us
         </div>
     </div>
-    
+
     <script>
         let cart = [];
         let currentCake = null;
@@ -639,220 +709,4 @@
             // Add event listeners to "Order Now" buttons
             document.querySelectorAll('.order-button').forEach(button => {
                 button.addEventListener('click', () => {
-                    const cakeName = button.dataset.cake;
-                    console.log('Order Now clicked for:', cakeName); // Debugging
-                    showOrderModal(cakeName);
-                });
-            });
-        }
-
-        // Show order modal
-        function showOrderModal(cakeName) {
-            currentCake = window.cakesData.find(c => c.name === cakeName);
-            document.getElementById('modalTitle').textContent = cakeName;
-            document.getElementById('orderModal').classList.add('open');
-            document.body.classList.add('no-scroll');
-        }
-
-        // Close order modal
-        function closeOrderModal() {
-            document.getElementById('orderModal').classList.remove('open');
-            document.body.classList.remove('no-scroll');
-        }
-
-        // Add to cart
-        function addToCart() {
-            const size = document.getElementById('orderSize').value;
-            const quantity = parseInt(document.getElementById('orderQty').value);
-            const date = document.getElementById('orderDate').value;
-
-            if (!date) {
-                alert('Please select a pickup date');
-                return;
-            }
-
-            const price = currentCake.prices[size] * quantity;
-
-            cart.push({
-                cake: currentCake.name,
-                size,
-                quantity,
-                date,
-                price,
-                image: currentCake.image
-            });
-
-            updateCartDisplay();
-            saveCart();
-            closeOrderModal(); // Close the modal after adding to cart
-        }
-
-        // Update cart display
-        function updateCartDisplay() {
-            const cartItems = document.getElementById('cartItems');
-            const cartTotal = document.getElementById('cartTotal');
-            const cartCount = document.getElementById('cart-count');
-            
-            cartItems.innerHTML = '';
-            let total = 0;
-
-            cart.forEach((item, index) => {
-                total += item.price;
-                cartItems.innerHTML += `
-                    <div class="cart-item">
-                        <div>
-                            <h4>${item.quantity}x ${item.cake} (${item.size})</h4>
-                            <p>€${item.price.toFixed(2)}</p>
-                            <small>Pickup: ${item.date}</small>
-                        </div>
-                        <span class="remove-item" onclick="removeFromCart(${index})">×</span>
-                    </div>
-                `;
-            });
-
-            cartTotal.textContent = total.toFixed(2);
-            cartCount.textContent = cart.length;
-        }
-
-        // Remove item from cart
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartDisplay();
-            saveCart();
-        }
-
-        // Toggle cart modal
-        function toggleCart() {
-            const cartModal = document.getElementById('cartModal');
-            cartModal.classList.toggle('open');
-            document.body.classList.toggle('no-scroll');
-        }
-
-        // Save cart
-        function saveCart() {
-            localStorage.setItem(CART_KEY, JSON.stringify(cart));
-        }
-
-        // Load cart
-        function loadCart() {
-            const savedCart = localStorage.getItem(CART_KEY);
-            if (savedCart) {
-                cart = JSON.parse(savedCart);
-                updateCartDisplay();
-            }
-        }
-
-        // Form submission
-        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const orderDetails = cart.map(item => 
-                `${item.quantity}x ${item.cake} (${item.size}) - €${item.price.toFixed(2)} - Pickup: ${item.date}`
-            ).join('\n');
-
-            document.getElementById('orderDetails').value = orderDetails;
-            this.submit();
-            
-            cart = [];
-            localStorage.removeItem(CART_KEY);
-            updateCartDisplay();
-            toggleCart();
-            alert('Order placed successfully!');
-        });
-       
-        // Add these functions
-        function openSocialModal(platform) {
-            if(platform === 'facebook') {
-                document.getElementById('facebookStories').classList.add('open');
-            } else {
-                document.getElementById('instagramStories').classList.add('open');
-            }
-            document.body.classList.add('no-scroll');
-        }
-
-        function closeSocialModal(platform) {
-            if(platform === 'facebook') {
-                document.getElementById('facebookStories').classList.remove('open');
-            } else {
-                document.getElementById('instagramStories').classList.remove('open');
-            }
-            document.body.classList.remove('no-scroll');
-        }
-
-        // Update modal closing logic
-        document.addEventListener('click', function(event) {
-            if(event.target.classList.contains('social-modal')) {
-                event.target.classList.remove('open');
-                document.body.classList.remove('no-scroll');
-            }
-        });
-        // Function to scroll to a specific section
-        function scrollToSection(sectionId) {
-            const section = document.getElementById(sectionId);
-            if (section) {
-                section.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        // Function to open About Us modal
-        function openAboutModal() {
-            document.getElementById('aboutModal').classList.add('open');
-            document.body.classList.add('no-scroll');
-        }
-
-        // Function to close About Us modal
-        function closeAboutModal() {
-            document.getElementById('aboutModal').classList.remove('open');
-            document.body.classList.remove('no-scroll');
-        }
-
-        // Initialize
-        window.onload = async () => {
-            window.cakesData = await (await fetch('https://raw.githubusercontent.com/simsonpeter/Cakeshop/main/cakes.json')).json();
-            displayCakes(window.cakesData);
-            loadCart();
-
-            // Add event listeners for close buttons
-            document.getElementById('closeOrderModal').addEventListener('click', closeOrderModal);
-            document.getElementById('closeCart').addEventListener('click', toggleCart);
-            document.getElementById('closeAboutModal').addEventListener('click', closeAboutModal);
-        };
-
-        // Add event listeners for cart button
-        const cartButton = document.getElementById('cartButton');
-        cartButton.addEventListener('click', toggleCart);
-
-        // Close modal on outside click
-        document.addEventListener('click', function(event) {
-            const orderModal = document.getElementById('orderModal');
-            const cartModal = document.getElementById('cartModal');
-            const aboutModal = document.getElementById('aboutModal');
-            if (event.target === orderModal) {
-                closeOrderModal();
-            }
-            if (event.target === cartModal) {
-                toggleCart();
-            }
-            if (event.target === aboutModal) {
-                closeAboutModal();
-            }
-        });
-
-        // Close modal on touch outside (mobile)
-        document.addEventListener('touchstart', function(event) {
-            const orderModal = document.getElementById('orderModal');
-            const cartModal = document.getElementById('cartModal');
-            const aboutModal = document.getElementById('aboutModal');
-            if (event.target === orderModal) {
-                closeOrderModal();
-            }
-            if (event.target === cartModal) {
-                toggleCart();
-            }
-            if (event.target === aboutModal) {
-                closeAboutModal();
-            }
-        });
-    </script>
-</body>
-</html>
+                    const cakeName = bu
